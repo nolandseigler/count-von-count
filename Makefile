@@ -2,7 +2,9 @@
 include .env
 export
 
-.PHONY: all run fmt test clean docker-up docker-down
+.PHONY: all run fmt test clean
+
+LOCAL_TAG := count-von-count:local
 # Citation for the following code:
 # Date: 04/06/2023
 # Copied from /OR/ Adapted from /OR/ Based on:
@@ -18,6 +20,16 @@ run:
 
 dev:
 	poetry run uvicorn count_von_count.main:create_app --factory --reload
+
+build-docker:
+	docker build \
+		-t $(LOCAL_TAG) \
+		--build-arg POETRY_VERSION="1.8.3" \
+		--progress plain \
+		"."
+
+run-docker: build-docker
+	docker run --rm -p 8000:8000 $(LOCAL_TAG)
 
 fmt:
 	poetry run isort .
