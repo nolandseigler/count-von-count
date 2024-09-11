@@ -20,3 +20,5 @@ that ^^ use a python pdf lib that is only 3.9 and back. worst case we use that b
 
 mmmmmm spaaaccyyyy: https://spacy.io/usage/linguistic-features#section-dependency-parse:~:text=The%20dependency%20parse,9.4%20million%22.
 
+so is the spacy model thread safe???
+

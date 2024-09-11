@@ -1,22 +1,26 @@
 
-import time
-from count_von_count.counter import Counter
 
+from fastapi import Depends, FastAPI
+import structlog
+from count_von_count.dependencies import get_new_test_counter
+from count_von_count.logging import logging_init
+from count_von_count.routes.count.routes import router as count_router
 
-def main():
+logging_init(log_level="DEBUG")
+logger: structlog.types.FilteringBoundLogger = structlog.get_logger(__name__)
 
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=5
+def create_app() -> FastAPI:
+    logger.info("begin application creation")
+
+    app = FastAPI(
+        # TODO: for now we will do a new Counter per. spacy model seems thread safe
+        # but really once we are streaming files to be used we need to decouple
+        # Counter from the PdfReader which is a fully rearch.
+        dependencies=[Depends(get_new_test_counter)],
     )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
 
+    logger.debug("including routers")
+    app.include_router(count_router)
 
-
-
-
-if __name__ == "__main__":
-    main()
+    logger.info("completed application creation")
+    return app

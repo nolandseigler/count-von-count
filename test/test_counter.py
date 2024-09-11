@@ -1,15 +1,14 @@
 
+import os
 import pytest
 from count_von_count.counter import Counter
 
-
-TEST_FILE = "/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf"
 
 @pytest.mark.timeout(20)
 @pytest.mark.limit_memory("120 MB")
 def test_process():
     counter = Counter(
-        pdf_filepath=TEST_FILE,
+        pdf_filepath=os.environ["TEST_FILE"],
         page_batch_size=5
     )
     results = counter.process()

@@ -10,6 +10,7 @@ that we should optimize for. this would prevent this program from being generali
 
 """
 from enum import StrEnum
+import os
 import re
 from typing import Union
 from pypdf import PdfReader
@@ -161,3 +162,4 @@ class Counter:
                 "lemma": self._no_ctx_largest_num_token_lemma,
             }
         }
+
