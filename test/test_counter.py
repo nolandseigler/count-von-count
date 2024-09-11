@@ -1,14 +1,15 @@
 
 import os
 import pytest
-from count_von_count.counter import Counter
+from count_von_count.counter import Counter, get_global_spacy
 
 
 @pytest.mark.timeout(20)
 @pytest.mark.limit_memory("120 MB")
 def test_process():
     counter = Counter(
-        pdf_filepath=os.environ["TEST_FILE"],
+        nlp=get_global_spacy(),
+        pdf_file_obj=os.environ["TEST_FILE"],
         page_batch_size=5
     )
     results = counter.process()

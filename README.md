@@ -22,3 +22,10 @@ mmmmmm spaaaccyyyy: https://spacy.io/usage/linguistic-features#section-dependenc
 
 so is the spacy model thread safe???
 
+
+I have something goofy with uvicorn or fast api that wants to 307 everything unless trailing slash and that destroys upload
+`curl http://localhost:8000/api/v1/count/ -F "file=@<absolute path to file>"`
+
+
+`curl http://localhost:8000/api/v1/count/ -F "file=@/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf"`
+

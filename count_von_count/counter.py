@@ -12,11 +12,29 @@ that we should optimize for. this would prevent this program from being generali
 from enum import StrEnum
 import os
 import re
+from threading import Lock
 from typing import Union
 from pypdf import PdfReader
 import spacy.tokens
 # python -m spacy download en_core_web_sm
 import spacy
+
+_GLOBAL_SPACY = None
+_GLOBAL_SPACY_LOCK = Lock()
+
+def get_global_spacy():
+    global _GLOBAL_SPACY, _GLOBAL_SPACY_LOCK
+
+    if _GLOBAL_SPACY:
+        return _GLOBAL_SPACY
+    with _GLOBAL_SPACY_LOCK:
+        if _GLOBAL_SPACY:
+            return _GLOBAL_SPACY
+        nlp = spacy.load("en_core_web_sm")
+        # Merge noun phrases and entities for easier analysis
+        nlp.add_pipe("merge_entities")
+        _GLOBAL_SPACY = nlp
+    return _GLOBAL_SPACY
 
 class Multipliers(StrEnum):
     BILLION = "billion"
@@ -54,12 +72,15 @@ class Counter:
        "_no_ctx_largest_num",
     )
 
-    def __init__(self, pdf_filepath: str, page_batch_size: int = 10, num_processing_proc: int = 1) -> None:
-        nlp = spacy.load("en_core_web_sm")
-        # # Merge noun phrases and entities for easier analysis
-        nlp.add_pipe("merge_entities")
+    def __init__(
+        self,
+        nlp: spacy.language.Language,
+        pdf_file_obj,
+        page_batch_size: int = 5,
+        num_processing_proc: int = 1,
+    ) -> None:
         self._nlp = nlp
-        self._reader = PdfReader(pdf_filepath)
+        self._reader = PdfReader(pdf_file_obj)
         self._garbage_filter = re.compile(r"\b(?:\d{1,3}(?:,\d{3})*)\$")
         self._page_batch_size = page_batch_size
 
