@@ -168,57 +168,10 @@ class Counter:
 
 
 def main():
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=1
-    )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
 
     counter = Counter(
         pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=10
-    )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
-
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=100
-    )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
-
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=1,
-        num_processing_proc=2,
-    )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
-
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=10,
-        num_processing_proc=2,
-    )
-    start = time.time()
-    results = counter.process()
-    end = time.time()
-    print(f"executed in {end - start} seconds, {counter._page_batch_size=}, {counter._num_processing_proc=}  {results=}")
-
-    counter = Counter(
-        pdf_filepath="/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf",
-        page_batch_size=100,
-        num_processing_proc=2,
+        page_batch_size=5
     )
     start = time.time()
     results = counter.process()
