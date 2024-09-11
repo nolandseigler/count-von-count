@@ -14,6 +14,7 @@ router = APIRouter(
 def get_count(request: Request):
     return request.counter.process()
 
+
 @router.post("/", response_class=JSONResponse)
 async def create_upload_file(request: Request, file: UploadFile):
     return Counter(

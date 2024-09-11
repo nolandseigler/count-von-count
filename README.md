@@ -1,31 +1,51 @@
 # count-von-count
-Finds the largest number in a pdf document
+Finds the largest number in a pdf document. Supports a test endpoint or upload your own file.
 
-## scratch
+## Prerequisites
 
-1. extract the text from the pdf using `insert lib here`
-2. use some type of NER to get all numbers
-3. find the biggest one.
+1. Make
+1. curl
+1. pdf file
+1. docker or poetry with python 3.12 installed
 
-cool poetry multistage build. looks legit.
+Make is used for easy command running. If you do not have make installed you can copy and paste the commands into your terminal
 
-https://github.com/gianfa/poetry/blob/docs/docker-best-practices/docker-examples/poetry-multistage/Dockerfile
+To exercise the counter you will need a pdf file. The application was developed using this file: `https://www.saffm.hq.af.mil/Portals/84/documents/FY25/FY25%20Air%20Force%20Working%20Capital%20Fund.pdf?ver=sHG_i4Lg0IGZBCHxgPY01g%3d%3d`.
 
-tell users to download this file themselves: https://www.saffm.hq.af.mil/Portals/84/documents/FY25/FY25%20Air%20Force%20Working%20Capital%20Fund.pdf?ver=sHG_i4Lg0IGZBCHxgPY01g%3d%3d and put it at `data/fy25_air_force_working_capital_fund.pdf`. so we dont check this beast into git. it doesnt like VPN so turn that off if your download fails. thankss chairforce.
-
-well this looks cool and quite convenient: https://github.com/DerwenAI/spaCy_tuTorial/blob/master/Extract_Text_from_PDF.ipynb
-
-that ^^ use a python pdf lib that is only 3.9 and back. worst case we use that but this looks like the latest and greatest in python pdf: https://github.com/py-pdf/pypdf
-
-
-mmmmmm spaaaccyyyy: https://spacy.io/usage/linguistic-features#section-dependency-parse:~:text=The%20dependency%20parse,9.4%20million%22.
-
-so is the spacy model thread safe???
+## Setup
+For a quick setup using the file above run:
+```
+make download-test
+```
 
 
-I have something goofy with uvicorn or fast api that wants to 307 everything unless trailing slash and that destroys upload
-`curl http://localhost:8000/api/v1/count/ -F "file=@<absolute path to file>"`
+## Run Docker
 
+The simplest way to run this is in docker run:
 
-`curl http://localhost:8000/api/v1/count/ -F "file=@/Users/nolandseigler/CodeProjects/count-von-count/data/fy25_air_force_working_capital_fund.pdf"`
+```
+make run-docker
+```
+
+## Run Local Host
+
+This step requires poetry and python 3.12 or greater installed and on path.
+
+Run
+
+```
+make install
+make dev
+```
+
+## Use the app
+
+### Test Mode
+
+1. This url http://127.0.0.1:8000/api/v1/count/test will use the hardcoded test pdf to return the count response.
+1. You may also upload your own pdf. This example uses the same test file.
+
+```
+make test-upload
+```
 

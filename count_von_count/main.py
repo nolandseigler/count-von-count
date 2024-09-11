@@ -1,13 +1,13 @@
-
-
-from fastapi import Depends, FastAPI
 import structlog
+from fastapi import Depends, FastAPI
+
 from count_von_count.dependencies import get_new_test_counter, get_nlp
 from count_von_count.logging import logging_init
 from count_von_count.routes.count.routes import router as count_router
 
 logging_init(log_level="DEBUG")
 logger: structlog.types.FilteringBoundLogger = structlog.get_logger(__name__)
+
 
 def create_app() -> FastAPI:
     logger.info("begin application creation")

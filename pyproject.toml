@@ -21,6 +21,8 @@ python-multipart = "^0.0.9"
 pytest = "^8.3.3"
 pytest-timeout = "^2.3.1"
 pytest-memray = "^1.7.0"
+isort = "^5.13.2"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]

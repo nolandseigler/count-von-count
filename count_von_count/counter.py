@@ -1,4 +1,3 @@
-
 """
 Process each page and just save the highest number.
 
@@ -9,18 +8,21 @@ The reality is that we know the document structure and there is likely some summ
 that we should optimize for. this would prevent this program from being generalized so be careful.
 
 """
-from enum import StrEnum
+
 import os
 import re
+from enum import StrEnum
 from threading import Lock
 from typing import Union
-from pypdf import PdfReader
-import spacy.tokens
+
 # python -m spacy download en_core_web_sm
 import spacy
+import spacy.tokens
+from pypdf import PdfReader
 
 _GLOBAL_SPACY = None
 _GLOBAL_SPACY_LOCK = Lock()
+
 
 def get_global_spacy():
     global _GLOBAL_SPACY, _GLOBAL_SPACY_LOCK
@@ -35,6 +37,7 @@ def get_global_spacy():
         nlp.add_pipe("merge_entities")
         _GLOBAL_SPACY = nlp
     return _GLOBAL_SPACY
+
 
 class Multipliers(StrEnum):
     BILLION = "billion"
@@ -61,15 +64,15 @@ class Counter:
     _no_ctx_largest_num: float
 
     __slots__ = (
-       "_nlp",
-       "_reader",
-       "_num_processing_proc",
-       "_garbage_filter",
-       "_page_batch_size",
-       "_largest_num_token_lemma",
-       "_largest_num",
-       "_no_ctx_largest_num_token_lemma",
-       "_no_ctx_largest_num",
+        "_nlp",
+        "_reader",
+        "_num_processing_proc",
+        "_garbage_filter",
+        "_page_batch_size",
+        "_largest_num_token_lemma",
+        "_largest_num",
+        "_no_ctx_largest_num_token_lemma",
+        "_no_ctx_largest_num",
     )
 
     def __init__(
@@ -133,7 +136,15 @@ class Counter:
         if self._garbage_filter.match(token.lemma_) is not None:
             return
 
-        splitty = token.lemma_.lower().replace("\n", "").replace("\r", "").replace("\t", "").replace("$ ", "$").strip().split(" ")
+        splitty = (
+            token.lemma_.lower()
+            .replace("\n", "")
+            .replace("\r", "")
+            .replace("\t", "")
+            .replace("$ ", "$")
+            .strip()
+            .split(" ")
+        )
 
         self._count_split_no_ctx(split=splitty, lemma=token.lemma_)
 
@@ -181,6 +192,5 @@ class Counter:
             "no_context_largest": {
                 "num": self._no_ctx_largest_num,
                 "lemma": self._no_ctx_largest_num_token_lemma,
-            }
+            },
         }
-
