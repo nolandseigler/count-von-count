@@ -1,7 +1,3 @@
-# Citation for the following code:
-# Date: 04/06/2023
-# Copied from /OR/ Adapted from /OR/ Based on:
-# https://unix.stackexchange.com/questions/235223/makefile-include-env-file
 
 include .env
 export
@@ -34,7 +30,7 @@ fmt:
 	poetry run black .
 
 test:
-	poetry run pytest .
+	poetry run pytest --memray .
 
 clean:
 	find . -type f -name '*.pyc' -delete
